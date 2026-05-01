@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekrutmen Tim Digital - Keizuru</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* === GLOBAL RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* === BACKGROUND === */
+        body {
+            background-color: #030305;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(64, 38, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* === LAYOUT STRUCTURE === */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* === HERO SECTION === */
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(90deg, #fff, #8a2be2, #4026ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .hero-subtitle {
+            font-size: 1rem;
+            color: #a0a0b0;
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* === BUTTONS === */
+        .btn-neon {
+            display: inline-block;
+            padding: 14px 35px;
+            background: rgba(10, 10, 15, 0.6);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            border: 1px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            z-index: 1;
+            transition: 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-neon::before {
+            content: "";
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -2px;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #ff007f, #4026ff);
+            transition: 0.3s ease;
+        }
+        .btn-neon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(64, 38, 255, 0.4);
+        }
+
+        /* === JOB CARDS (CENTERED STACK) === */
+        .job-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px; /* Jarak antar kartu */
+            padding-bottom: 100px;
+        }
+
+        .crypto-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 700px; /* Mencegah kartu terlalu lebar di PC */
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.4s ease;
+        }
+        .crypto-card:hover {
+            border-color: rgba(64, 38, 255, 0.4);
+        }
+
+        .crypto-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+        .crypto-card .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: rgba(64, 38, 255, 0.2);
+            color: #8bb4ff;
+            border: 1px solid rgba(64, 38, 255, 0.5);
+        }
+
+        /* === JOBDESK & DETAILS BOX === */
+        .section-title {
+            font-size: 1rem;
+            color: #00d9ff;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .content-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .content-box p {
+            color: #a0a0b0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .content-box ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            color: #b0b0c0;
+        }
+        .content-box li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        .highlight-text {
+            color: #fff;
+            font-weight: 600;
+        }
+        .warning-text {
+            color: #ff4d4d;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* === SCROLL ANIMATION === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Hero Text */
+        @media (max-width: 600px) {
+            .hero-title { font-size: 2.2rem; }
+            .crypto-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <!-- 1. HERO SECTION -->
+    <section>
+        <h1 class="hero-title reveal active">Keizuru Work Station</h1>
+        <p class="hero-subtitle reveal active">Sistem komisi freelance berbasis performa. Tidak ada gaji tetap untuk yang tidak bekerja. Hasil besar untuk kinerja besar.</p>
+        <p style="margin-top: 30px; color: #555; font-size: 0.8rem; letter-spacing: 2px;" class="reveal active">⬇️ PILIH POSISI DI BAWAH ⬇️</p>
+    </section>
+
+    <!-- 2. JOB SECTIONS -->
+    <div id="jobs" class="job-container">
+        
+        <!-- CARD 1: ELITE SPAMMER -->
+        <div class="crypto-card reveal">
+            <div class="badge">PRO LEVEL</div>
+            <h2>Elite Spammer 💎</h2>
+            
+            <h3 class="section-title">📌 Jobdesk</h3>
+            <div class="content-box">
+                <p>Spesialis retensi pelanggan. Kamu bertugas menyapa dan merayu pelanggan lama untuk melakukan re-deposit.</p>
+                <ul>
+                    <li>Kerja 100% via WhatsApp.</li>
+                    <li><strong>Database nomor pelanggan sudah kami sediakan.</strong></li>
+                    <li>Wajib memiliki 2 akun WA (resiko banned).</li>
+                    <li>Wajib HP Android minimal versi 7 (iOS tidak bisa).</li>
+                </ul>
+            </div>
+
+            <h3 class="section-title">💰 Rincian Gaji</h3>
+            <div class="content-box">
+                <ul>
+                    <li>Gaji Pokok: <span class="highlight-text">300k - 500k / Minggu</span></li>
+                    <li>Rate DB: <span class="highlight-text">700 IDR</span> per DB Valid (Syarat: Tim Top 3)</li>
+                    <li>Bonus NDP: <span class="highlight-text">10.000 IDR</span> (Deposit Baru)</li>
+                    <li>Bonus RDP: <span class="highlight-text">10% - 15%</span> + Gaji Frekuensi</li>
+                </ul>
+            </div>
+            <!-- Auto Text Telegram Elite -->
+            <a href="https://t.me/keizuruu?text=Halo%20kak%20Kei%2C%20aku%20mau%20mendaftar%20sebagai%20Spammer%20Elite." class="btn-neon" target="_blank">Apply as Elite</a>
+        </div>
+
+        <!-- CARD 2: SPAMMER T0 -->
+        <div class="crypto-card reveal">
+            <div class="badge">ENTRY LEVEL</div>
+            <h2>Spammer T0 🚀</h2>
+            
+            <h3 class="section-title">📌 Jobdesk</h3>
+            <div class="content-box">
+                <p>Langkah awal pembuktian. Kamu bertugas mencari dan menjangkau prospek pelanggan baru melalui WhatsApp secara mandiri.</p>
+                <ul>
+                    <li>Kerja via WhatsApp.</li>
+                    <li>Database nomor pelanggan sudah kami sediakan.</li>
+                    <li>Wajib HP Android & 2 akun WA aktif.</li>
+                    <li><strong>JALUR CEPAT:</strong> Dapatkan 1 pelanggan deposit, kamu langsung naik jabatan menjadi T3 (Setara Elite).</li>
+                </ul>
+            </div>
+
+            <h3 class="section-title">💰 Rincian Gaji</h3>
+            <div class="content-box">
+                <ul>
+                    <li>Gaji Awal: <span class="highlight-text">Berdasarkan Kinerja</span></li>
+                    <li>Target Promosi: <span class="highlight-text">1 Pelanggan Deposit</span></li>
+                    <li>Reward: <span class="highlight-text">Promosi Instan ke T3</span> (Mendapatkan Gaji Pokok & Rate setara Elite)</li>
+                </ul>
+            </div>
+            <!-- Auto Text Telegram T0 -->
+            <a href="https://t.me/keizuruu?text=Halo%20kak%20Kei%2C%20aku%20mau%20mendaftar%20sebagai%20Spammer%20T0." class="btn-neon" target="_blank">Start as T0</a>
+        </div>
+
+        <!-- CARD 3: ADMIN RECRUITMENT -->
+        <div class="crypto-card reveal">
+            <div class="badge" style="background: rgba(255, 0, 127, 0.2); color: #ff4d94; border-color: rgba(255, 0, 127, 0.5);">HEADHUNTER</div>
+            <h2>Admin Recruitment 👤</h2>
+            
+            <h3 class="section-title">📌 Jobdesk</h3>
+            <div class="content-box">
+                <p>Satu-satunya posisi yang bergerak di luar WhatsApp. Kamu adalah penggerak pasukan utama kami.</p>
+                <ul>
+                    <li>Mencari dan merekrut calon spammer baru.</li>
+                    <li>Bebas menggunakan Facebook, TikTok, Twitter, atau Threads.</li>
+                    <li>Membimbing dan memastikan spammer rekrutanmu aktif mengejar target postingan harian.</li>
+                </ul>
+            </div>
+
+            <h3 class="section-title">💰 Rincian Gaji (Berdasarkan Level)</h3>
+            <div class="content-box">
+                <ul>
+                    <li><strong>Level 1:</strong> 7 Aktif & 3 org dpt deposit = <span class="highlight-text">300k + Bonus T0 + Bonus T2</span></li>
+                    <li><strong>Level 2:</strong> 12 Aktif & 7 org dpt deposit = <span class="highlight-text">400k + Bonus T0 + Bonus T2</span></li>
+                    <li><strong>Level 3:</strong> 24 Aktif & 12 org dpt deposit = <span class="highlight-text">500k + Bonus T0 + Bonus T2</span></li>
+                </ul>
+                <p class="warning-text">⚠️ Peringatan: Jika tidak menyentuh performa Level 1, gaji di bawah 100k.</p>
+            </div>
+            <!-- Auto Text Telegram Recruitment -->
+            <a href="https://t.me/keizuruu?text=Halo%20kak%20Kei%2C%20aku%20mau%20mendaftar%20sebagai%20Admin%20Recruitment." class="btn-neon" target="_blank">Build Your Team</a>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT SCROLL REVEAL ANIMATION -->
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>
